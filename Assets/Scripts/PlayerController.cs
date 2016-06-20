@@ -5,6 +5,10 @@ public class PlayerController : MonoBehaviour {
 
 	public float speed;
 	float cameraHalfWidth;
+
+	[HideInInspector]
+	public float direction;
+
 	GameObject playerLeft, playerRight;
 	Rigidbody2D myRigidBody, myLeftRigidBody, myRightRigidBody;
 
@@ -23,13 +27,18 @@ public class PlayerController : MonoBehaviour {
 		myRigidBody.gravityScale = 0;
 		myLeftRigidBody.gravityScale = 0;
 		myRightRigidBody.gravityScale = 0;
+
+
 	}
 		
 	void Update () {
 		LimitBoundary();
 
-		float direction = Input.GetAxisRaw("Horizontal");
+		#if UNITY_STANDALONE
+		direction = Input.GetAxisRaw("Horizontal");
+		#endif
 		transform.Translate(Vector2.right * direction * speed * Time.deltaTime);
+
 	}
 
 	void LimitBoundary() {
@@ -44,4 +53,16 @@ public class PlayerController : MonoBehaviour {
 	void OnTriggerEnter2D (Collider2D collider) {
 		Destroy(gameObject);
 	}
+
+	bool OnScreen(GameObject obj) {
+		float left, right;
+		bool boo;
+		left = obj.transform.position.x - obj.transform.localScale.x/2;
+		right = obj.transform.position.x + obj.transform.localScale.x/2;
+		boo = (left > -cameraHalfWidth && left < cameraHalfWidth) || (right > -cameraHalfWidth && right < cameraHalfWidth);
+
+		if(boo) Debug.Log("HIII");
+		return boo;
+	}
+
 }

@@ -14,8 +14,16 @@ public class PlayerCollide : MonoBehaviour {
 
 
 	void OnTriggerEnter2D (Collider2D collider) {
-		if(OnScreen())
-			Destroy(player.gameObject);
+		if(OnScreen()) {
+			if(player.life <= 0) {
+				Destroy(player.gameObject);
+				Destroy(collider.gameObject);
+			}
+			else {
+				player.life--;
+				Destroy(collider.gameObject);
+			}
+		}
 	}
 
 	bool OnScreen() {

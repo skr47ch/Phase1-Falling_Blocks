@@ -4,7 +4,9 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 
 	public float speed;
+	public int life = 3;
 	float cameraHalfWidth;
+	public bool dead = false;
 
 	[HideInInspector]
 	public float direction;
@@ -51,8 +53,18 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D (Collider2D collider) {
-		Destroy(gameObject);
+		if(life <= 0) {
+			Destroy(gameObject);
+			Destroy(collider.gameObject);
+			Time.timeScale *= 0.08f;
+			dead = true;
+		}
+		else {
+			life--;
+			Destroy(collider.gameObject);
+		}
 	}
+		
 
 	bool OnScreen(GameObject obj) {
 		float left, right;

@@ -10,21 +10,25 @@ public class GUI : MonoBehaviour {
 	float seconds;
 	string currentScore = null;
 	public bool countScore;
+	public float theTime;
 
 	void Start () {
-//		score = GetComponent<Text>();
 		player = FindObjectOfType<PlayerController>();
+		gameOver.gameObject.SetActive(false);
+		theTime = 0f;
 	}
 	
 
 	void Update () {
 		
 		if(!player.dead) {
-			currentScore = Time.time.ToString("F0");
+			theTime += Time.deltaTime;
+			currentScore = theTime.ToString("F0");
 			score.text = "Score : " + currentScore;
 		}
 		else {
 			score.gameObject.SetActive(false);
+			gameOver.gameObject.SetActive(true);
 			gameOver.text = "YOU DEAD\n" + "Score : " + currentScore;
 		}
 

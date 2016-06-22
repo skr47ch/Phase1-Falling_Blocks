@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class TouchControl : MonoBehaviour {
 
@@ -23,6 +24,12 @@ public class TouchControl : MonoBehaviour {
 		player.direction = 0;
 		Debug.Log("Released");
 
+	}
+
+	public void RestartCurrentScene() {
+		int scene = SceneManager.GetActiveScene().buildIndex;
+		SceneManager.LoadScene(scene, LoadSceneMode.Single);
+		Time.timeScale = 1;
 	}
 
 }
